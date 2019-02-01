@@ -30,50 +30,60 @@ function load() {
 	}
 }
 
+chrome.runtime.onMessage.addListener(
+	function(request, sender, sendResponse) {
+	  console.log(sender.tab ?
+				  "from a content script:" + sender.tab.url :
+				  "from the extension");
+	  if (request.greeting == "hello")
+		sendResponse({farewell: "goodbye"});
+	});
+	
 function updateDatabase() {
 	var url = "https://nhentai.net/tags/";
 	var tagDatabase = new Map();
-	var accesStatus = "success";
+	var lastpage = false;
 	var iterator = 1;
-	while (accesStatus == "success") {
+	var lastPageUrl = "";
+	while (!lastpage) {
 		var request = $.ajax({
+			async: false,
 			url: url,
 			method: "GET",
-			data: { id : menuId },
-			dataType: "html"
 		});
 		
-		request.done(function( msg ) {
-		$( "#log" ).html( msg );
+		request.done(function(data) {
+			if (iterator == 1) {
+				lastPageUrl = $(data).find('.last').attr("href");
+			}
+
+			var tagContainer = $(data).find('#tag-container').html();
+			var tags = $(data).find('.tag').map( function() {
+							return $(this);
+						}).get();
+
+					
+			var arrayLength = tags.length;
+			for (var i = 0; i < arrayLength; i++) {
+				var className = $(tags[i]).attr('class');
+				var tagID = className.replace(/\D/g,'');
+				
+				var tagName = $(tags[i]).clone().children().remove().end().text();
+				tagName = tagName.replace(/\s/g, "");
+				tagDatabase.set(tagName, tagID);
+			}
+
+			if (url.includes(lastPageUrl)) {
+				lastpage = true;
+			}
+
+			iterator++;
+			url = "https://nhentai.net/tags/?page=" + iterator;
 		});
 		
 		request.fail(function( jqXHR, textStatus ) {
-		alert( "Request failed: " + textStatus );
-		});
-			
-
-
-		$.get(url, function(data, status){
-			accesStatus = status;
-			if (status == "success"){
-				var tagContainer = $(data).find('#tag-container').html();
-				
-				var tags = $(data).find('.tag').map( function() {
-							return $(this);
-						}).get();
-						
-				var arrayLength = tags.length;
-				for (var i = 0; i < arrayLength; i++) {
-					var className = $(tags[i]).attr('class');
-					var tagID = className.replace(/\D/g,'');
-					
-					var tagName = $(tags[i]).clone().children().remove().end().text();
-					tagName = tagName.replace(/\s/g, "");
-					tagDatabase.set(tagName, tagID);
-				}
-				iterator++;
-				url = "https://nhentai.net/tags/?page=" + iterator;
-			}
+			alert( "Request failed: " + textStatus );
 		});
 	}
+	alert( "Update finished");
 }

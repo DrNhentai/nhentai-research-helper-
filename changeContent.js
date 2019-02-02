@@ -1,5 +1,6 @@
 var galarieElements = document.getElementsByClassName("gallery");
 var tags = [];
+var tagDatabase = new Map();
 
 chrome.storage.local.get('tags', function(data) {
   var arrayLength = data.tags.length;
@@ -7,8 +8,13 @@ chrome.storage.local.get('tags', function(data) {
 		tags.push(data.tags[i]);
 	}
 });
+chrome.storage.local.get('tagDatabaseArray', function(data) {
+	var arrayLength = data.tagDatabaseArray.length;
+	  for (var i = 0; i < arrayLength; i+=2) {
+		  tagDatabase.set(data.tagDatabaseArray[i], data.tagDatabaseArray[i+1]);
+	  }
+  });
 
-updateDatabase();
 //load();
 
 function load() {
@@ -32,16 +38,13 @@ function load() {
 
 chrome.runtime.onMessage.addListener(
 	function(request, sender, sendResponse) {
-	  console.log(sender.tab ?
-				  "from a content script:" + sender.tab.url :
-				  "from the extension");
-	  if (request.greeting == "hello")
-		sendResponse({farewell: "goodbye"});
+	  if (request.function == "index")
+		updateDatabase();
 	});
-	
+
 function updateDatabase() {
 	var url = "https://nhentai.net/tags/";
-	var tagDatabase = new Map();
+	var tagDatabaseArray = [];
 	var lastpage = false;
 	var iterator = 1;
 	var lastPageUrl = "";
@@ -70,7 +73,9 @@ function updateDatabase() {
 				
 				var tagName = $(tags[i]).clone().children().remove().end().text();
 				tagName = tagName.replace(/\s/g, "");
-				tagDatabase.set(tagName, tagID);
+
+				tagDatabaseArray.push(tagName);
+				tagDatabaseArray.push(tagID);
 			}
 
 			if (url.includes(lastPageUrl)) {
@@ -85,5 +90,7 @@ function updateDatabase() {
 			alert( "Request failed: " + textStatus );
 		});
 	}
-	alert( "Update finished");
+	chrome.storage.local.set({tagDatabaseArray: tagDatabaseArray}, function() {
+		alert( "Update finished");
+	})
 }

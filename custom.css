@@ -1,3 +1,19 @@
-.test {
-	border-style: dashed;
+.decent {
+	box-shadow: 0px 0px 10px 2px #6bf502c4;
+	border: 1px solid #000000;
+}
+
+.good {
+	box-shadow: 0px 0px 10px 3px rgb(0, 225, 255);
+	border: 1px solid #000000;
+}
+
+.very-good {
+	box-shadow: 0px 0px 10px 4px#ff00ff;
+	border: 1px solid #000000;
+}
+
+.perfect {
+	box-shadow: 0px 0px 10px 5px #ffd609;
+	border: 1px solid #000000;
 }

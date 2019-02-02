@@ -2,45 +2,65 @@ var galarieElements = document.getElementsByClassName("gallery");
 var tags = [];
 var tagDatabase = new Map();
 
-chrome.storage.local.get('tags', function(data) {
-  var arrayLength = data.tags.length;
-	for (var i = 0; i < arrayLength; i++) {
-		tags.push(data.tags[i]);
-	}
-});
-chrome.storage.local.get('tagDatabaseArray', function(data) {
-	var arrayLength = data.tagDatabaseArray.length;
-	  for (var i = 0; i < arrayLength; i+=2) {
-		  tagDatabase.set(data.tagDatabaseArray[i], data.tagDatabaseArray[i+1]);
-	  }
-  });
+start();
 
-//load();
-
-function load() {
-	var arrayLength1 = galarieElements.length;
-	for (var i = 0; i < arrayLength1; i++) {
-		var url = galarieElements[i].childNodes[0].href;
-		$.get(url, function(data, status){
-			var score = 0;
-			var arrayLength2 = tags.length;
-			for (var j = 0; j < arrayLength2; j++) {
-				if (data.includes(tags[j])) {
-					score++;
-				}
-			}
-			if (score > 0) {
-				galarieElements[i].classList.add("test");
-			}
+function start() {
+	chrome.runtime.onMessage.addListener(
+		function(request, sender, sendResponse) {
+		  if (request.function == "index")
+			updateDatabase();
 		});
-	}
+	loadTags();
 }
 
-chrome.runtime.onMessage.addListener(
-	function(request, sender, sendResponse) {
-	  if (request.function == "index")
-		updateDatabase();
+function loadTags() {
+	chrome.storage.local.get('tags', function(data) {
+		var arrayLength = data.tags.length;
+		for (var i = 0; i < arrayLength; i++) {
+			var tagName = data.tags[i].replace(/\s/g, "");
+			tags.push(tagName);
+		}
+		loadTagDatabase();
 	});
+	
+}
+
+function loadTagDatabase() {
+	chrome.storage.local.get('tagDatabaseArray', function(data) {
+		var arrayLength = data.tagDatabaseArray.length;
+		for (var i = 0; i < arrayLength; i+=2) {
+			tagDatabase.set(data.tagDatabaseArray[i], data.tagDatabaseArray[i+1]);
+		}
+		applyScore();
+	});
+}
+
+function applyScore() {
+	var arrayLength1 = galarieElements.length;
+	for (var i = 0; i < arrayLength1; i++) {
+		var dataTags = galarieElements[i].getAttribute("data-tags");
+		var score = 0;
+		var arrayLength2 = tags.length;
+		for (var j = 0; j < arrayLength2; j++) {
+			if (dataTags.includes(tagDatabase.get(tags[j]))) {
+				score++;
+			}
+		}
+		if (score == 1) {
+			galarieElements[i].classList.add("decent");
+		}
+		if (score == 2) {
+			galarieElements[i].classList.add("good");
+		}
+		if (score == 3) {
+			galarieElements[i].classList.add("very-good");
+		}
+		if (score >= 4) {
+			galarieElements[i].classList.add("perfect");
+		}
+		
+	}
+}
 
 function updateDatabase() {
 	var url = "https://nhentai.net/tags/";

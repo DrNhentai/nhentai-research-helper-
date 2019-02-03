@@ -2,13 +2,24 @@ var galarieElements = document.getElementsByClassName("gallery");
 var tags = [];
 var tagDatabase = new Map();
 
+var updateDiv = document.createElement('div');
+var navbar = document.getElementsByClassName("collapse");
+updateDiv.classList.add('update-div');
+updateDiv.style.display = "none";
+updateDiv.innerHTML = "Updating tag database"
+
+navbar[0].parentNode.appendChild(updateDiv);
+
 start();
 
 function start() {
 	chrome.runtime.onMessage.addListener(
 		function(request, sender, sendResponse) {
 		  if (request.function == "index")
-			updateDatabase();
+			  updateDiv.style.display = "inherit";
+			  setTimeout(function(){
+				updateDatabase();
+			  },0);
 		});
 	loadTags();
 }
@@ -68,6 +79,8 @@ function updateDatabase() {
 	var lastpage = false;
 	var iterator = 1;
 	var lastPageUrl = "";
+
+
 	while (!lastpage) {
 		var request = $.ajax({
 			async: false,
@@ -110,6 +123,7 @@ function updateDatabase() {
 			alert( "Request failed: " + textStatus );
 		});
 	}
+	updateDiv.style.display = "none";
 	chrome.storage.local.set({tagDatabaseArray: tagDatabaseArray}, function() {
 		alert( "Update finished");
 	})

@@ -17,3 +17,7 @@
 	box-shadow: 0px 0px 10px 5px #ffd609;
 	border: 1px solid #000000;
 }
+
+.update-div {
+	line-height: 50px;
+}

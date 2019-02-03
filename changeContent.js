@@ -1,5 +1,6 @@
 var galarieElements = document.getElementsByClassName("gallery");
 var tags = [];
+var tagsReadable = [];
 var tagDatabase = new Map();
 
 var updateDiv = document.createElement('div');
@@ -30,6 +31,7 @@ function loadTags() {
 		for (var i = 0; i < arrayLength; i++) {
 			var tagName = data.tags[i].replace(/\s/g, "");
 			tags.push(tagName);
+			tagsReadable.push(data.tags[i]);
 		}
 		loadTagDatabase();
 	});
@@ -51,9 +53,12 @@ function applyScore() {
 	for (var i = 0; i < arrayLength1; i++) {
 		var dataTags = galarieElements[i].getAttribute("data-tags");
 		var score = 0;
+		var includedTags = [];
+
 		var arrayLength2 = tags.length;
 		for (var j = 0; j < arrayLength2; j++) {
 			if (dataTags.includes(tagDatabase.get(tags[j]))) {
+				includedTags.push(tagsReadable[j]);
 				score++;
 			}
 		}
@@ -68,6 +73,22 @@ function applyScore() {
 		}
 		if (score >= 4) {
 			galarieElements[i].classList.add("perfect");
+		}
+
+		if (score > 0) {
+			var includedTagsPopup = document.createElement('div');
+			includedTagsPopup.classList.add('tooltip-container');
+		
+			var arrayLength3 = includedTags.length;
+			for (var t = 0; t < arrayLength3; t++) {
+				var tagPopup = document.createElement('div');
+				tagPopup.classList.add('tooltiptext');
+				tagPopup.innerHTML += includedTags[t];
+				includedTagsPopup.appendChild(tagPopup);
+			}
+
+			galarieElements[i].classList.add('tooltip');
+			galarieElements[i].appendChild(includedTagsPopup);
 		}
 		
 	}

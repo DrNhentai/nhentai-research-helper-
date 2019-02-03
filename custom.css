@@ -21,3 +21,39 @@
 .update-div {
 	line-height: 50px;
 }
+
+.tooltip .tooltiptext {
+	border-radius: 3px;
+    color: #fff;
+    margin: 2px;
+    padding: 2px 6px 3px;
+	background: #4d4d4d;
+  }
+
+  .tooltip-container {
+	visibility: hidden;
+	width: fit-content;
+	max-width: 200px;
+	background-color: #1f1f1f;
+	color: #fff;
+	border-radius: 6px;
+	display: flex;
+	flex-wrap: wrap;
+	padding: 5px;
+
+	/* Position the tooltip text */
+	position: absolute;
+	z-index: 1;
+	top: 0;
+	left: 100%;
+  
+	/* Fade in tooltip */
+	opacity: 0;
+	transition: opacity 0.1s;
+
+  }
+
+  .tooltip:hover .tooltip-container {
+	visibility: visible;
+	opacity: 1;
+  }

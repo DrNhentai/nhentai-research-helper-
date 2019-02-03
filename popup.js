@@ -16,16 +16,18 @@ chrome.storage.local.get('tags', function(data) {
 	}
 });
 
+tagName.addEventListener("keyup", function(event) {
+	if (event.keyCode === 13) {
+		newTag(tagName.value);
+		updateSettings();
+		tagName.value = "";
+	}
+  });
+
 addTag.onclick = function(element) {
 	newTag(tagName.value);
 	updateSettings();
-	
-  //let color = element.target.value;
-  //chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-  //  chrome.tabs.executeScript(
-  //      tabs[0].id,
-  //      {code: 'document.body.style.backgroundColor = "' + color + '";'});
-  //});
+	tagName.value = "";
 };
 
 updateTags.onclick = function(element) {

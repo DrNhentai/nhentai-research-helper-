@@ -1,0 +1,14 @@
+.tagButton {
+    border-radius: 3px;
+    border: none;
+    color: #fff;
+    margin: 2px;
+    padding: 2px 6px 3px;
+    background: #4d4d4d;
+    cursor: pointer;
+
+}
+
+.tagButton:hover {
+    background: #b82525;
+}

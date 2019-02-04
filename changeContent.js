@@ -16,7 +16,7 @@ start();
 function start() {
 	chrome.runtime.onMessage.addListener(
 		function(request, sender, sendResponse) {
-		  if (request.function == "index")
+		  if (request.function == "updateDatabase")
 			  updateDiv.style.display = "inherit";
 			  setTimeout(function(){
 				updateDatabase();
@@ -44,7 +44,11 @@ function loadTagDatabase() {
 		for (var i = 0; i < arrayLength; i+=2) {
 			tagDatabase.set(data.tagDatabaseArray[i], data.tagDatabaseArray[i+1]);
 		}
-		applyScore();
+		if (tagDatabase.size > 0) {
+			applyScore();
+		} else {
+			createUpdateDiv();
+		}
 	});
 }
 
@@ -148,4 +152,42 @@ function updateDatabase() {
 	chrome.storage.local.set({tagDatabaseArray: tagDatabaseArray}, function() {
 		alert( "Update finished");
 	})
+}
+
+function createUpdateDiv() {
+	var updateHintEnabled = true;
+	chrome.storage.local.get('updateHint', function(data) {
+			updateHintEnabled = data.updateHint ;
+			if (updateHintEnabled) {
+				var pleaseUpdateDiv = document.createElement('div');
+				var updateButton = document.createElement('button');
+				var disableUpdateButton = document.createElement('button');
+		
+				updateButton.innerHTML = "update";
+				updateButton.classList.add('please-update-button');
+				updateButton.onclick = function(element) {
+					updateDiv.style.display = "inherit";
+						setTimeout(function(){
+							updateDatabase();
+						},0);
+				};
+		
+				disableUpdateButton.innerHTML = "dont show this again";
+				disableUpdateButton.classList.add('hide-update-button');
+				disableUpdateButton.onclick = function(element) {
+					chrome.storage.local.set({updateHint: false}, function() {
+					pleaseUpdateDiv.style.display = "none";
+					});
+				};
+		
+		
+				pleaseUpdateDiv.classList.add('please-update-container');
+				pleaseUpdateDiv.innerHTML = "Your tag-database is empty. Do you want to update it now (this may take a short while)?"
+		
+				pleaseUpdateDiv.appendChild(updateButton);
+				pleaseUpdateDiv.appendChild(disableUpdateButton);
+		
+				document.body.appendChild(pleaseUpdateDiv);
+			}
+	});
 }

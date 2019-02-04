@@ -26,7 +26,14 @@
   "content_scripts": [ {
    "css": [ "custom.css" ],
    "js": ["jquery-3.3.1.min.js", "changeContent.js"],
-   "matches": [ "*://nhentai.net/*" ]
-} ],
+   "matches": [ "*://nhentai.net/*" ],
+   "exclude_matches": ["https://nhentai.net/g/*"]
+  },
+  {
+    "css": [ "custom.css" ],
+    "js": ["galerie-page.js"],
+    "matches": ["https://nhentai.net/g/*"]
+   }
+   ],
   "manifest_version": 2
 }

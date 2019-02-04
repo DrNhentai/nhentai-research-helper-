@@ -22,6 +22,10 @@
 	line-height: 50px;
 }
 
+.favorite-tag {
+	background: #642a75 !important;
+}
+
 .tooltip .tooltiptext {
 	border-radius: 3px;
     color: #fff;
@@ -56,4 +60,52 @@
   .tooltip:hover .tooltip-container {
 	visibility: visible;
 	opacity: 1;
+  }
+
+  .please-update-container {
+	overflow: hidden;
+	background-color: #333;
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	z-index: 110;
+	font-size: 16px;
+	font-weight: 700;
+  }
+
+  .please-update-button {
+	display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+    padding: 0;
+    padding-right: 12px;
+    padding-left: 12px;
+    color: #fff;
+    border: 0;
+    border-radius: 3px;
+    outline: 0;
+    font-size: 100%;
+    height: 40px;
+    line-height: 40px;
+	margin: 10px;
+	margin-left: 30px;
+	background-color: #ed2553;
+  }
+
+  .hide-update-button {
+	display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+    padding: 0;
+    padding-right: 12px;
+    padding-left: 12px;
+    color: #fff;
+    border: 0;
+    border-radius: 3px;
+    outline: 0;
+    font-size: 100%;
+    height: 40px;
+    line-height: 40px;
+	margin: 10px;
+	background-color: #1d1d1d;
   }

@@ -12,3 +12,11 @@
 .tagButton:hover {
     background: #b82525;
 }
+
+hr {
+    margin-top: 40px;
+}
+
+#updateTags {
+    //margin-top: 20px;
+}

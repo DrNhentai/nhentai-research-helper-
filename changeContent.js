@@ -27,11 +27,13 @@ function start() {
 
 function loadTags() {
 	chrome.storage.local.get('tags', function(data) {
-		var arrayLength = data.tags.length;
-		for (var i = 0; i < arrayLength; i++) {
-			var tagName = data.tags[i].replace(/\s/g, "");
-			tags.push(tagName);
-			tagsReadable.push(data.tags[i]);
+		if (typeof data.tags !== 'undefined') {
+			var arrayLength = data.tags.length;
+			for (var i = 0; i < arrayLength; i++) {
+				var tagName = data.tags[i].replace(/\s/g, "");
+				tags.push(tagName);
+				tagsReadable.push(data.tags[i]);
+			}
 		}
 		loadTagDatabase();
 	});
@@ -40,12 +42,12 @@ function loadTags() {
 
 function loadTagDatabase() {
 	chrome.storage.local.get('tagDatabaseArray', function(data) {
-		var arrayLength = data.tagDatabaseArray.length;
-		for (var i = 0; i < arrayLength; i+=2) {
-			tagDatabase.set(data.tagDatabaseArray[i], data.tagDatabaseArray[i+1]);
-		}
-		if (tagDatabase.size > 0) {
-			applyScore();
+		if (typeof data.tagDatabaseArray !== 'undefined') {
+			var arrayLength = data.tagDatabaseArray.length;
+			for (var i = 0; i < arrayLength; i+=2) {
+				tagDatabase.set(data.tagDatabaseArray[i], data.tagDatabaseArray[i+1]);
+			}
+				applyScore();
 		} else {
 			createUpdateDiv();
 		}
@@ -169,6 +171,7 @@ function createUpdateDiv() {
 					updateDiv.style.display = "inherit";
 						setTimeout(function(){
 							updateDatabase();
+							pleaseUpdateDiv.style.display = "none";
 						},0);
 				};
 		

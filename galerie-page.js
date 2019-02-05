@@ -1,6 +1,17 @@
 var tags = [];
 var tagsReadable = [];
-var tagsOnPage = document.getElementsByClassName("tag");
+var tagContainer = document.getElementsByClassName("tag-container");
+var relevantTags;
+var tagsOnPage;
+
+var arrayLength2 = tagContainer.length;
+for (var j = 0; j < arrayLength2; j++) {
+	if (tagContainer[j].textContent.includes("Tags")) {
+		relevantTags = tagContainer[j];
+		tagsOnPage = relevantTags.childNodes[1].childNodes;
+	}
+}  
+
 
 start();
 
@@ -17,22 +28,70 @@ function start() {
 
 function loadTags() {
 	chrome.storage.local.get('tags', function(data) {
-		var arrayLength = data.tags.length;
-		for (var i = 0; i < arrayLength; i++) {
-			tagsReadable.push(data.tags[i]);
+		if (typeof data.tags !== 'undefined') {
+			var arrayLength = data.tags.length;
+			for (var i = 0; i < arrayLength; i++) {
+				tagsReadable.push(data.tags[i]);
+			}
 		}
 		colorTags();
 	});
 }
 
 function colorTags() {
-    var arrayLength = tagsReadable.length;
+    var arrayLength = tagsOnPage.length;
     for (var i = 0; i < arrayLength; i++) {
-        var arrayLength2 = tagsOnPage.length;
+		var isFavoriteTag = false;
+
+		var addTagPopup = document.createElement('div');
+		var heartIcon = document.createElement('i');
+		heartIcon.classList.add('fa');
+		heartIcon.classList.add('fa-heart');
+
+		addTagPopup.classList.add('add-tag-container');
+
+		
+
+		addTagPopup.appendChild(heartIcon);
+		tagsOnPage[i].appendChild(addTagPopup);
+		tagsOnPage[i].classList.add("tag-hoverable");
+
+		var arrayLength2 = tagsReadable.length;
         for (var j = 0; j < arrayLength2; j++) {
-            if (tagsOnPage[j].innerHTML.includes(tagsReadable[i])) {
-                tagsOnPage[j].classList.add("favorite-tag");
-            }
-        }  
-    }
+            if (tagsOnPage[i].innerHTML.includes(tagsReadable[j])) {
+				tagsOnPage[i].classList.add("favorite-tag");
+				heartIcon.classList.add('tag-heart');
+				isFavoriteTag = true;
+			}
+		}
+		if (isFavoriteTag) {
+			addTagPopup.onclick = function(element) {
+				var parent = this.parentElement;
+				var tagName = parent.childNodes[0].nodeValue;
+				tagName = tagName.slice(0, -1);
+				
+				var index = tagsReadable.indexOf(tagName);
+				if (index > -1) {
+					tagsReadable.splice(index, 1);
+				  }
+				updateTags();
+				return false;
+			};
+		}  else {
+			addTagPopup.onclick = function(element) {
+				var parent = this.parentElement;
+				var tagName = parent.childNodes[0].nodeValue;
+				tagName = tagName.slice(0, -1);
+				tagsReadable.push(tagName);
+				updateTags();
+				return false;
+			};
+		}
+	}
+}
+
+function updateTags() {
+	chrome.storage.local.set({tags: tagsReadable}, function() {
+		location.reload();
+	});
 }

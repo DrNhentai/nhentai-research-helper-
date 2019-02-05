@@ -109,3 +109,42 @@
 	margin: 10px;
 	background-color: #1d1d1d;
   }
+
+  .tag-hoverable:hover .add-tag-container {
+	visibility: visible;
+  }
+
+  .tag-hoverable {
+	position: relative;
+  }
+
+  .add-tag-container {
+	visibility: hidden;
+	width: 35px;
+	background-color: #949393;
+	color: #fff;
+	text-align: center;
+	border-radius: 6px;
+	padding: 8px 0;
+	
+	/* Position the tooltip */
+	position: absolute;
+	z-index: 1;
+	top: -5px;
+	left: 104%;
+  }
+
+  .add-tag-container::after {
+	content: " ";
+	position: absolute;
+	top: 50%;
+	right: 100%;
+	margin-top: -5px;
+	border-width: 5px;
+	border-style: solid;
+	border-color: transparent #949393 transparent transparent;
+  }
+
+  .tag-heart {
+	color: #ed2553;
+  }

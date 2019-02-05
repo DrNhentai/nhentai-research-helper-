@@ -23,9 +23,11 @@ tagName.addEventListener("keyup", function(event) {
   });
 
 addTag.onclick = function(element) {
-	newTag(tagName.value);
-	updateSettings();
-	tagName.value = "";
+	if (tagName.value != "") {
+		newTag(tagName.value);
+		updateSettings();
+		tagName.value = "";
+	}
 };
 
 updateTags.onclick = function(element) {

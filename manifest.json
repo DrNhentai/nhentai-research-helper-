@@ -1,7 +1,7 @@
 {
   "name": "Nhentai research helper",
   "version": "1.0",
-  "description": "An extention to help with your &quot;scientific&quot; research on nhentai.net",
+  "description": "An extention to help with your \"scientific\" research on nhentai.net",
   "permissions": ["activeTab", "declarativeContent", "storage"],
   "options_page": "options.html",
   "background": {

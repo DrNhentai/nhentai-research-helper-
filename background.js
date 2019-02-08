@@ -1,8 +1,6 @@
-// Copyright 2018 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
 'use strict';
+
+var tagsReadable = [];
 
 chrome.runtime.onInstalled.addListener(function() {
   chrome.storage.local.set({updateHint: true}, function() {
@@ -17,3 +15,38 @@ chrome.runtime.onInstalled.addListener(function() {
     }]);
   });
 });
+
+function loadTags() {
+	chrome.storage.local.get('tags', function(data) {
+		if (typeof data.tags !== 'undefined') {
+			var arrayLength = data.tags.length;
+			for (var i = 0; i < arrayLength; i++) {
+				tagsReadable.push(data.tags[i]);
+			}
+		}
+	});
+}
+
+chrome.runtime.onMessage.addListener(
+  function(request, sender, sendResponse) {
+    var tag = request.tag;
+
+    if (request.function == "addTag") {
+      tagsReadable.push(tag);
+    }
+
+    if (request.function == "deleteTag") {
+      var index = tagsReadable.indexOf(tag);
+      if (index > -1) {
+        tagsReadable.splice(index, 1);
+      }
+    }
+
+    updateTags();
+  }
+);
+
+function updateTags() {
+	chrome.storage.local.set({tags: tagsReadable}, function() {
+	});
+}

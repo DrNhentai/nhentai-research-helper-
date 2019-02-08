@@ -112,6 +112,7 @@
 
   .tag-hoverable:hover .add-tag-container {
 	visibility: visible;
+	transition: .25s ease-in-out 0s; 
   }
 
   .tag-hoverable {
@@ -119,6 +120,7 @@
   }
 
   .add-tag-container {
+	transition: .30s ease-in-out 0.01s;
 	visibility: hidden;
 	width: 35px;
 	background-color: #949393;

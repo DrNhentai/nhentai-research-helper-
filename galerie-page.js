@@ -73,8 +73,8 @@ function colorTags() {
 				var index = tagsReadable.indexOf(tagName);
 				if (index > -1) {
 					tagsReadable.splice(index, 1);
-				  }
-				updateTags();
+				}
+				deleteTag(tagName);
 				return false;
 			};
 		}  else {
@@ -83,15 +83,25 @@ function colorTags() {
 				var tagName = parent.childNodes[0].nodeValue;
 				tagName = tagName.slice(0, -1);
 				tagsReadable.push(tagName);
-				updateTags();
+				addTag(tagName);
 				return false;
 			};
 		}
 	}
 }
 
-function updateTags() {
-	chrome.storage.local.set({tags: tagsReadable}, function() {
-		location.reload();
+function addTag(tag) {
+	chrome.runtime.sendMessage({
+		function: "addTag",
+		tag: tag
 	});
+	location.reload();
+}
+
+function deleteTag(tag) {
+	chrome.runtime.sendMessage({
+		function: "deleteTag",
+		tag: tag
+	});
+	location.reload();
 }

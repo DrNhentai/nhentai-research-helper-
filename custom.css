@@ -28,13 +28,13 @@
 
 .tooltip .tooltiptext {
 	border-radius: 3px;
-    color: #fff;
-    margin: 2px;
-    padding: 2px 6px 3px;
+	color: #fff;
+	margin: 2px;
+	padding: 2px 6px 3px;
 	background: #4d4d4d;
-  }
+}
 
-  .tooltip-container {
+.tooltip-container {
 	visibility: hidden;
 	width: fit-content;
 	max-width: 200px;
@@ -45,24 +45,23 @@
 	flex-wrap: wrap;
 	padding: 5px;
 
-	/* Position the tooltip text */
+/* Position the tooltip text */
 	position: absolute;
 	z-index: 1;
 	top: 0;
 	left: 100%;
-  
-	/* Fade in tooltip */
+
+/* Fade in tooltip */
 	opacity: 0;
 	transition: opacity 0.1s;
+}
 
-  }
-
-  .tooltip:hover .tooltip-container {
+.tooltip:hover .tooltip-container {
 	visibility: visible;
 	opacity: 1;
-  }
+}
 
-  .please-update-container {
+.please-update-container {
 	overflow: hidden;
 	background-color: #333;
 	position: fixed;
@@ -71,72 +70,72 @@
 	z-index: 110;
 	font-size: 16px;
 	font-weight: 700;
-  }
+}
 
-  .please-update-button {
+.please-update-button {
 	display: inline-block;
-    vertical-align: middle;
-    cursor: pointer;
-    padding: 0;
-    padding-right: 12px;
-    padding-left: 12px;
-    color: #fff;
-    border: 0;
-    border-radius: 3px;
-    outline: 0;
-    font-size: 100%;
-    height: 40px;
-    line-height: 40px;
+	vertical-align: middle;
+	cursor: pointer;
+	padding: 0;
+	padding-right: 12px;
+	padding-left: 12px;
+	color: #fff;
+	border: 0;
+	border-radius: 3px;
+	outline: 0;
+	font-size: 100%;
+	height: 40px;
+	line-height: 40px;
 	margin: 10px;
 	margin-left: 30px;
 	background-color: #ed2553;
-  }
+}
 
-  .hide-update-button {
+.hide-update-button {
 	display: inline-block;
-    vertical-align: middle;
-    cursor: pointer;
-    padding: 0;
-    padding-right: 12px;
-    padding-left: 12px;
-    color: #fff;
-    border: 0;
-    border-radius: 3px;
-    outline: 0;
-    font-size: 100%;
-    height: 40px;
-    line-height: 40px;
+	vertical-align: middle;
+	cursor: pointer;
+	padding: 0;
+	padding-right: 12px;
+	padding-left: 12px;
+	color: #fff;
+	border: 0;
+	border-radius: 3px;
+	outline: 0;
+	font-size: 100%;
+	height: 40px;
+	line-height: 40px;
 	margin: 10px;
 	background-color: #1d1d1d;
-  }
+}
 
-  .tag-hoverable:hover .add-tag-container {
+.tag-hoverable:hover .add-tag-container {
 	visibility: visible;
 	transition: .25s ease-in-out 0s; 
-  }
+}
 
-  .tag-hoverable {
-	position: relative;
-  }
+.tag-hoverable {
+position: relative;
+}
 
-  .add-tag-container {
-	transition: .30s ease-in-out 0.01s;
-	visibility: hidden;
-	width: 35px;
-	background-color: #949393;
-	color: #fff;
-	text-align: center;
-	border-radius: 6px;
-	padding: 8px 0;
-	
-	/* Position the tooltip */
-	position: absolute;
-	z-index: 1;
-	top: -5px;
-	left: 104%;
-  }
+.add-tag-container {
+transition: .30s ease-in-out 0.01s;
+visibility: hidden;
+width: 35px;
+background-color: #949393;
+color: #fff;
+text-align: center;
+border-radius: 6px;
+padding: 8px 0;
 
-  .add-tag-container::after {
+/* Position the tooltip */
+position: absolute;
+z-index: 1;
+top: -5px;
+left: 104%;
+}
+
+.add-tag-container::after {
 	content: " ";
 	position: absolute;
 	top: 50%;
@@ -145,8 +144,8 @@
 	border-width: 5px;
 	border-style: solid;
 	border-color: transparent #949393 transparent transparent;
-  }
+}
 
-  .tag-heart {
+.tag-heart {
 	color: #ed2553;
-  }
+}

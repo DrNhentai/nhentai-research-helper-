@@ -1,10 +1,17 @@
 'use strict';
 
 var tagsReadable = [];
+loadTags();
 
 chrome.runtime.onInstalled.addListener(function() {
   chrome.storage.local.set({updateHint: true}, function() {
   });
+
+  chrome.storage.local.set({tagDatabase: false}, function() {});
+  chrome.storage.local.set({artistDatabase: false}, function() {});
+  chrome.storage.local.set({characterDatabase: false}, function() {});
+  chrome.storage.local.set({parodyDatabase: false}, function() {});
+  chrome.storage.local.set({groupDatabase: false}, function() {});
 
   chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
     chrome.declarativeContent.onPageChanged.addRules([{
@@ -32,16 +39,19 @@ chrome.runtime.onMessage.addListener(
     var tag = request.tag;
 
     if (request.function == "addTag") {
-      tagsReadable.push(tag);
-    }
-
-    if (request.function == "deleteTag") {
-      var index = tagsReadable.indexOf(tag);
-      if (index > -1) {
-        tagsReadable.splice(index, 1);
+      if (!tagsReadable.includes(tag)) {
+        tagsReadable.push(tag);
       }
     }
 
+    if (request.function == "deleteTag") {
+      if (tagsReadable.includes(tag)) {
+        var index = tagsReadable.indexOf(tag);
+        if (index > -1) {
+          tagsReadable.splice(index, 1);
+        }
+      }
+    }
     updateTags();
   }
 );

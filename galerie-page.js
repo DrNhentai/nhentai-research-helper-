@@ -3,6 +3,10 @@ var tagsReadable = [];
 var tagContainer = document.getElementsByClassName("tag-container");
 var relevantTags;
 var tagsOnPage;
+var artistsOnPage;
+var charactersOnPage;
+var parodiesOnPage;
+var groupsOnPage;
 
 var arrayLength2 = tagContainer.length;
 for (var j = 0; j < arrayLength2; j++) {
@@ -10,19 +14,28 @@ for (var j = 0; j < arrayLength2; j++) {
 		relevantTags = tagContainer[j];
 		tagsOnPage = relevantTags.childNodes[1].childNodes;
 	}
+	if (tagContainer[j].textContent.includes("Artists")) {
+		relevantTags = tagContainer[j];
+		artistsOnPage = relevantTags.childNodes[1].childNodes;
+	}
+	if (tagContainer[j].textContent.includes("Characters")) {
+		relevantTags = tagContainer[j];
+		charactersOnPage = relevantTags.childNodes[1].childNodes;
+	}
+	if (tagContainer[j].textContent.includes("Parodies")) {
+		relevantTags = tagContainer[j];
+		parodiesOnPage = relevantTags.childNodes[1].childNodes;
+	}
+	if (tagContainer[j].textContent.includes("Groups")) {
+		relevantTags = tagContainer[j];
+		groupsOnPage = relevantTags.childNodes[1].childNodes;
+	}
 }  
 
 
 start();
 
 function start() {
-	//chrome.runtime.onMessage.addListener(
-	//	function(request, sender, sendResponse) {
-	//	  if (request.function == "updateDatabase")
-	//		  setTimeout(function(){
-	//			updateDatabase();
-	//		  },0);
-	//	});
 	loadTags();
 }
 
@@ -34,12 +47,16 @@ function loadTags() {
 				tagsReadable.push(data.tags[i]);
 			}
 		}
-		colorTags();
+		colorTags(tagsOnPage);
+		colorTags(artistsOnPage);
+		colorTags(charactersOnPage);
+		colorTags(parodiesOnPage);
+		colorTags(groupsOnPage);
 	});
 }
 
-function colorTags() {
-    var arrayLength = tagsOnPage.length;
+function colorTags(tagOnPageList) {
+    var arrayLength = tagOnPageList.length;
     for (var i = 0; i < arrayLength; i++) {
 		var isFavoriteTag = false;
 
@@ -53,13 +70,13 @@ function colorTags() {
 		
 
 		addTagPopup.appendChild(heartIcon);
-		tagsOnPage[i].appendChild(addTagPopup);
-		tagsOnPage[i].classList.add("tag-hoverable");
+		tagOnPageList[i].appendChild(addTagPopup);
+		tagOnPageList[i].classList.add("tag-hoverable");
 
 		var arrayLength2 = tagsReadable.length;
         for (var j = 0; j < arrayLength2; j++) {
-            if (tagsOnPage[i].innerHTML.includes(tagsReadable[j])) {
-				tagsOnPage[i].classList.add("favorite-tag");
+            if (tagOnPageList[i].innerHTML.includes(tagsReadable[j])) {
+				tagOnPageList[i].classList.add("favorite-tag");
 				heartIcon.classList.add('tag-heart');
 				isFavoriteTag = true;
 			}

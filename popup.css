@@ -20,3 +20,20 @@ hr {
 #updateTags {
     margin-top: 20px;
 }
+
+.database-status-container {
+	display: flex;
+	justify-content: space-between;
+}
+
+.missing{
+    color: #bb0729;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.found {
+    color: #27af0b;
+    font-size: 14px;
+    font-weight: bold;
+}

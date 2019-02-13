@@ -130,6 +130,7 @@ function applyScore() {
 	var arrayLength1 = galarieElements.length;
 	for (var i = 0; i < arrayLength1; i++) {
 		var dataTags = galarieElements[i].getAttribute("data-tags");
+		var dataTagList = dataTags.split(" ")
 		var score = 0;
 		var includedTags = [];
 		var includedArtists = [];
@@ -140,38 +141,48 @@ function applyScore() {
 		var arrayLength2 = tags.length;
 
 		for (var j = 0; j < arrayLength2; j++) {
-			if (dataTags.includes(tagDatabase.get(tags[j]))) {
-				includedTags.push(tagsReadable[j]);
-				score++;
-			}
+			dataTagList.forEach(function(tag) {
+				if (tag == tagDatabase.get(tags[j])) {
+					includedTags.push(tagsReadable[j]);
+					score++;
+				}
+			});
 		}
 		
 		for (var j = 0; j < arrayLength2; j++) {
-			if (dataTags.includes(artistDatabase.get(tags[j]))) {
-				includedArtists.push(tagsReadable[j]);
-				score++;
-			}
+			dataTagList.forEach(function(tag) {
+				if (tag == artistDatabase.get(tags[j])) {
+					includedArtists.push(tagsReadable[j]);
+					score++;
+				}
+			});
 		}
 
 		for (var j = 0; j < arrayLength2; j++) {
-			if (dataTags.includes(characterDatabase.get(tags[j]))) {
-				includedCharacters.push(tagsReadable[j]);
-				score++;
-			}
+			dataTagList.forEach(function(tag) {
+				if (tag == characterDatabase.get(tags[j])) {
+					includedCharacters.push(tagsReadable[j]);
+					score++;
+				}
+			});
 		}
 
 		for (var j = 0; j < arrayLength2; j++) {
-			if (dataTags.includes(parodyDatabase.get(tags[j]))) {
-				includedParodies.push(tagsReadable[j]);
-				score++;
-			}
+			dataTagList.forEach(function(tag) {
+				if (tag == parodyDatabase.get(tags[j])) {
+					includedParodies.push(tagsReadable[j]);
+					score++;
+				}
+			});
 		}
 
 		for (var j = 0; j < arrayLength2; j++) {
-			if (dataTags.includes(groupDatabase.get(tags[j]))) {
-				includedGroups.push(tagsReadable[j]);
-				score++;
-			}
+			dataTagList.forEach(function(tag) {
+				if (tag == groupDatabase.get(tags[j])) {
+					includedGroups.push(tagsReadable[j]);
+					score++;
+				}
+			});
 		}
 
 		if (score == 1) {

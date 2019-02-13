@@ -127,31 +127,36 @@ function updateDatabaseRequest(baseUrl, downloadUrl, tagDatabaseArray, lastPageU
 function storeDatabase(tagDatabaseArray, databaseName) {
 	updateDiv.style.display = "none";
     switch(databaseName) {
-        case "tagDatabase":
+		case "tagDatabase":
+		chrome.storage.local.set({tagDatabase: true}, function() {});
 			chrome.storage.local.set({tagDatabaseArray: tagDatabaseArray}, function() {
 				alert( "Update finished");
 				updateInProgress = false;
 			})
             break;
-        case "artistDatabase":
+		case "artistDatabase":
+			chrome.storage.local.set({artistDatabase: true}, function() {});
 			chrome.storage.local.set({artistDatabaseArray: tagDatabaseArray}, function() {
 				alert( "Update finished");
 				updateInProgress = false;
 			})
             break;
-        case "characterDatabase":
+		case "characterDatabase":
+			chrome.storage.local.set({characterDatabase: true}, function() {});
 			chrome.storage.local.set({characterDatabaseArray: tagDatabaseArray}, function() {
 				alert( "Update finished");
 				updateInProgress = false;
 			})
             break;
-        case "parodyDatabase":
+		case "parodyDatabase":
+			chrome.storage.local.set({parodyDatabase: true}, function() {});
 			chrome.storage.local.set({parodyDatabaseArray: tagDatabaseArray}, function() {
 				alert( "Update finished");
 				updateInProgress = false;
 			})
             break;
-        case "groupDatabase":
+		case "groupDatabase":
+			chrome.storage.local.set({groupDatabase: true}, function() {});
 			chrome.storage.local.set({groupDatabaseArray: tagDatabaseArray}, function() {
 				alert( "Update finished");
 				updateInProgress = false;

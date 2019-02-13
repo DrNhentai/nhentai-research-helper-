@@ -36,27 +36,50 @@ function loadTags() {
 
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
-    var tag = request.tag;
-
     if (request.function == "addTag") {
+      var tag = request.tag;
       if (!tagsReadable.includes(tag)) {
         tagsReadable.push(tag);
+        updateTags();
       }
     }
 
     if (request.function == "deleteTag") {
+      var tag = request.tag;
       if (tagsReadable.includes(tag)) {
         var index = tagsReadable.indexOf(tag);
         if (index > -1) {
           tagsReadable.splice(index, 1);
+          updateTags();
         }
       }
     }
-    updateTags();
+
+    if (request.function == "download") {
+      download(request);
+    }
   }
 );
 
 function updateTags() {
 	chrome.storage.local.set({tags: tagsReadable}, function() {
 	});
+}
+
+function download(message) {
+  var numberOfImages = message.numberOfImages;
+  var srcNumber = message.srcNumber;
+  var title = message.title;
+
+  title = title.replace(/[/\\?%*:|"<>]/g, '-');
+
+  for (let index = 1; index <= numberOfImages; index++) {
+    var url = "https://i.nhentai.net/galleries/" + srcNumber + "/" + index + ".jpg";
+    var fileName = "./" + title + "/" + index + ".jpg";
+
+    chrome.downloads.download({
+      url: url,
+      filename: fileName
+    });
+  }
 }

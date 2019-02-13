@@ -1,12 +1,21 @@
+var tagContainer = document.getElementsByClassName("tag-container");
+
 var tags = [];
 var tagsReadable = [];
-var tagContainer = document.getElementsByClassName("tag-container");
 var relevantTags;
+
 var tagsOnPage;
 var artistsOnPage;
 var charactersOnPage;
 var parodiesOnPage;
 var groupsOnPage;
+
+
+var coverContainer = document.getElementById("cover");
+var img = coverContainer.children[0].children[0];
+var src = img.src;
+var test = src.split("/");
+
 
 var arrayLength2 = tagContainer.length;
 for (var j = 0; j < arrayLength2; j++) {
@@ -32,7 +41,7 @@ for (var j = 0; j < arrayLength2; j++) {
 	}
 }  
 
-
+setupDownloadButtons();
 start();
 
 function start() {
@@ -121,4 +130,48 @@ function deleteTag(tag) {
 		tag: tag
 	});
 	location.reload();
+}
+
+function setupDownloadButtons() {
+	var buttonsContainer = document.getElementsByClassName("buttons");
+	var downloadTorrentButton = document.getElementById('download');
+
+	downloadTorrentButton.childNodes[1].nodeValue = ' Torrent download';
+
+	var downloadDirectButton = document.createElement("div");
+	downloadDirectButton.classList.add("btn");
+	downloadDirectButton.classList.add("btn-secondary");
+
+	var downloadIcon = document.createElement("i");
+	downloadIcon.classList.add('fa');
+	downloadIcon.classList.add('fa-download');
+
+	var text = document.createTextNode(" Direct download");
+	downloadDirectButton.appendChild(downloadIcon);
+	downloadDirectButton.appendChild(text);
+	buttonsContainer[0].appendChild(downloadDirectButton);
+
+	downloadDirectButton.onclick = function() {
+		downloadComic();
+	};
+}
+
+function downloadComic() {
+	var coverContainer = document.getElementById("cover");
+	var img = coverContainer.children[0].children[0];
+	var src = img.src;
+	var imgNumber = src.split("/");
+
+	var thumbnailContainer = document.getElementById("thumbnail-container");
+	var numberOfImages = thumbnailContainer.children.length;
+
+	var h1s = document.getElementsByTagName("h1");
+	var title = h1s[0].innerText;
+
+	chrome.runtime.sendMessage({
+		function: "download",
+		srcNumber: imgNumber[4],
+		numberOfImages : numberOfImages,
+		title: title
+	});
 }

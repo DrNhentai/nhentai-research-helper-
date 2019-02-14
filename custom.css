@@ -149,3 +149,12 @@ left: 104%;
 .tag-heart {
 	color: #ed2553;
 }
+
+@media (max-width: 1580px) {
+	.tooltip-container {
+		z-index: 99;
+		left: 0%;
+		width: 100%;
+		max-width: unset;
+	}
+  }

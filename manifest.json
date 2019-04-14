@@ -1,10 +1,10 @@
 {
   "name": "Nhentai research helper",
-  "version": "3.3",
+  "version": "4.0",
   "description": "An extention to help with your \"scientific\" research on nhentai.net",
-  "permissions": ["activeTab", "declarativeContent", "storage", "unlimitedStorage","downloads"],
+  "permissions": ["https://nhentai.net/" ,"activeTab", "declarativeContent", "storage", "unlimitedStorage","downloads"],
   "background": {
-    "scripts": ["background.js"],
+    "scripts": ["jquery-3.3.1.min.js", "background.js"],
     "persistent": false
   },
   "page_action": {
@@ -33,7 +33,7 @@
     "exclude_globs": ["*/g/*/*/"]
    },
    {
-    "css": [ "custom.css" ],
+    "css": [ "reddit.css" ],
     "js": ["jquery-3.3.1.min.js", "externalPreview.js"],
     "matches": ["https://www.reddit.com/*"]
    }

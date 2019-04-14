@@ -63,8 +63,9 @@ chrome.runtime.onMessage.addListener(
       download(request);
     } 
 
-    if (request.function == "test") {
-      //updateDatabaseRequest();
+    if (request.function == "externalPreview") {
+      getNhentaiData(request.url, sendResponse);
+      return true;
     }
   }
 );
@@ -102,31 +103,44 @@ function download(message) {
   }
 }
 
-function updateDatabaseRequest() {
+function getNhentaiData(url, sendResponse) {
 	var request = $.ajax({
         async: true,
         crossDomain : true,
-		url: "https://nhentai.net/",
+		url: url,
 		method: "GET",
     });
     
-    request.fail(function(data){
-        var oo = 0;
-        setTimeout(function(){
-            
-          },800);
-    });
+  request.fail(function(data){
+    
+  });
 	
 	request.done(function(data) {
-		var oo = 0;
+    var infoDiv = $(data).find("#info");
+    var comicTitle = infoDiv.find("h1").text();
+
+    var coverDiv = $(data).find("#cover");
+    var coverUrl = coverDiv.find("img").attr("data-src");
+
+    var tagDiv = $(data).find("#tags");
+    var tags = [];
+    tagDiv.children().each(function(index, currentElement) {
+      if ($(currentElement).text().includes("Tags")) {
+
+        $(currentElement).children().each(function( index, childElement ) { 
+          $(childElement).children().each(function( index, tagElement ) {
+            tags.push(tagElement.firstChild.textContent);
+          });
+        });
+      }
     });
+
+    sendResponse({
+      title: comicTitle,
+      coverUrl: coverUrl,
+      tags: tags
+    });
+  });
     
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "https://nhentai.net/", true);
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4) {
-            alert(xhr.responseText);
-        }
-    }
-    xhr.send();
+    
 }

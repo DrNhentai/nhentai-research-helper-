@@ -1,6 +1,7 @@
 'use strict';
 
 var tagsReadable = [];
+var tagsUpdated = false;
 loadTags();
 
 chrome.runtime.onInstalled.addListener(function() {
@@ -29,8 +30,11 @@ function loadTags() {
 			var arrayLength = data.tags.length;
 			for (var i = 0; i < arrayLength; i++) {
 				tagsReadable.push(data.tags[i]);
-			}
-		}
+      }
+      tagsUpdated = true;
+		} else {
+      tagsUpdated = true;
+    }
 	});
 }
 
@@ -40,7 +44,7 @@ chrome.runtime.onMessage.addListener(
       var tag = request.tag;
       if (!tagsReadable.includes(tag)) {
         tagsReadable.push(tag);
-        updateTags();
+        waitForAsyncAndUpdateTags();
       }
     }
 
@@ -50,7 +54,7 @@ chrome.runtime.onMessage.addListener(
         var index = tagsReadable.indexOf(tag);
         if (index > -1) {
           tagsReadable.splice(index, 1);
-          updateTags();
+          waitForAsyncAndUpdateTags();
         }
       }
     }
@@ -60,6 +64,16 @@ chrome.runtime.onMessage.addListener(
     }
   }
 );
+
+function waitForAsyncAndUpdateTags() {
+  if (tagsUpdated) {
+    updateTags();
+  } else {
+    setTimeout(function(){
+      waitForAsyncAndUpdateTags();
+    },100);
+  }
+}
 
 function updateTags() {
 	chrome.storage.local.set({tags: tagsReadable}, function() {

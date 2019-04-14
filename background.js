@@ -61,6 +61,10 @@ chrome.runtime.onMessage.addListener(
 
     if (request.function == "download") {
       download(request);
+    } 
+
+    if (request.function == "test") {
+      //updateDatabaseRequest();
     }
   }
 );
@@ -96,4 +100,33 @@ function download(message) {
       filename: fileName
     });
   }
+}
+
+function updateDatabaseRequest() {
+	var request = $.ajax({
+        async: true,
+        crossDomain : true,
+		url: "https://nhentai.net/",
+		method: "GET",
+    });
+    
+    request.fail(function(data){
+        var oo = 0;
+        setTimeout(function(){
+            
+          },800);
+    });
+	
+	request.done(function(data) {
+		var oo = 0;
+    });
+    
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "https://nhentai.net/", true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4) {
+            alert(xhr.responseText);
+        }
+    }
+    xhr.send();
 }

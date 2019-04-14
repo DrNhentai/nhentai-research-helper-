@@ -3,7 +3,6 @@
   "version": "3.3",
   "description": "An extention to help with your \"scientific\" research on nhentai.net",
   "permissions": ["activeTab", "declarativeContent", "storage", "unlimitedStorage","downloads"],
-  "options_page": "options.html",
   "background": {
     "scripts": ["background.js"],
     "persistent": false
@@ -32,6 +31,11 @@
     "js": ["jquery-3.3.1.min.js", "databaseUpdater.js", "galerie-page.js"],
     "matches": ["*://nhentai.net/g/*"],
     "exclude_globs": ["*/g/*/*/"]
+   },
+   {
+    "css": [ "custom.css" ],
+    "js": ["jquery-3.3.1.min.js", "externalPreview.js"],
+    "matches": ["https://www.reddit.com/*"]
    }
    ],
   "manifest_version": 2

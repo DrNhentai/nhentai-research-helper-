@@ -146,8 +146,47 @@ left: 104%;
 	border-color: transparent #949393 transparent transparent;
 }
 
+.info-hoverable:hover .info-container {
+	visibility: visible;
+}
+
+.info-hoverable {
+	position: relative;
+}
+
+.info-container {
+	visibility: hidden;
+	width: 160px;
+	background-color: #949393;
+	color: #fff;
+	text-align: center;
+	border-radius: 6px;
+	
+	/* Position the tooltip */
+	position: absolute;
+	z-index: 1;
+	bottom: 110%;
+  	left: 50%; 
+  	margin-left: -80px;
+}
+	
+.info-container::after {
+	content: " ";
+	position: absolute;
+	top: 110%;
+	right: 50%;
+	margin-top: -5px;
+	border-width: 5px;
+	border-style: solid;
+	border-color: #949393 transparent  transparent  transparent;
+}
+
 .tag-heart {
 	color: #ed2553;
+}
+
+.icon-only {
+	min-width: unset !important;
 }
 
 @media (max-width: 1580px) {

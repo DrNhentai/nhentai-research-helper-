@@ -10,13 +10,6 @@ var charactersOnPage;
 var parodiesOnPage;
 var groupsOnPage;
 
-
-var coverContainer = document.getElementById("cover");
-var img = coverContainer.children[0].children[0];
-var src = img.src;
-var test = src.split("/");
-
-
 var arrayLength2 = tagContainer.length;
 for (var j = 0; j < arrayLength2; j++) {
 	if (tagContainer[j].textContent.includes("Tags")) {
@@ -42,6 +35,7 @@ for (var j = 0; j < arrayLength2; j++) {
 }  
 
 setupDownloadButtons();
+setupShareButton();
 start();
 
 function start() {
@@ -156,6 +150,43 @@ function setupDownloadButtons() {
 	};
 }
 
+function setupShareButton() {
+	var heartIcon = document.createElement('i');
+	heartIcon.classList.add('fa');
+	heartIcon.classList.add('fa-heart');
+
+	
+
+
+	var addTooltipPopup = document.createElement('div');
+	addTooltipPopup.classList.add('info-container');
+
+	var text = document.createTextNode("Copy ID to clipboard");
+	addTooltipPopup.appendChild(text);
+
+	var buttonsContainer = document.getElementsByClassName("buttons");
+
+	var shareButton = document.createElement("div");
+	shareButton.classList.add("btn");
+	shareButton.classList.add("btn-secondary");
+	shareButton.classList.add("icon-only");
+
+	var shareIcon = document.createElement("i");
+	shareIcon.classList.add('fa');
+	shareIcon.classList.add('fa-clone');
+	shareButton.appendChild(shareIcon);
+
+	shareButton.appendChild(addTooltipPopup);
+	shareButton.classList.add("info-hoverable");
+
+	buttonsContainer[0].appendChild(shareButton);
+
+	shareButton.onclick = function() {
+		document.execCommand('copy');
+		text.nodeValue = "ID copied";
+	};
+}
+
 function downloadComic() {
 	var coverContainer = document.getElementById("cover");
 	var img = coverContainer.children[0].children[0];
@@ -175,3 +206,11 @@ function downloadComic() {
 		title: title
 	});
 }
+
+document.addEventListener('copy', function(e) {
+	var src = window.location.href;
+	var imgNumber = src.split("/");
+
+	e.clipboardData.setData('text/plain', imgNumber[4]);
+	e.preventDefault();
+  });

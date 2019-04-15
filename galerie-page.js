@@ -77,8 +77,10 @@ function colorTags(tagOnPageList) {
 		tagOnPageList[i].classList.add("tag-hoverable");
 
 		var arrayLength2 = tagsReadable.length;
-        for (var j = 0; j < arrayLength2; j++) {
-            if (tagOnPageList[i].innerHTML.includes(tagsReadable[j])) {
+		for (var j = 0; j < arrayLength2; j++) {
+			compareStringTag = tagOnPageList[i].firstChild.textContent.replace(/\s/g, "");
+			compareStringFavoriteTag = tagsReadable[j].replace(/\s/g, "");
+			if (compareStringTag == compareStringFavoriteTag) {
 				tagOnPageList[i].classList.add("favorite-tag");
 				heartIcon.classList.add('tag-heart');
 				isFavoriteTag = true;

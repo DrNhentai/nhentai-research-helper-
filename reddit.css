@@ -32,18 +32,6 @@
   	left: 50%; 
   	margin-left: -80px;
 }
-	
-.info-container::after {
-	content: " ";
-	position: absolute;
-	top: 110%;
-	right: 50%;
-	margin-top: -5px;
-	border-width: 5px;
-	border-style: solid;
-	border-color: #949393 transparent  transparent  transparent;
-}
-
 
 .imageTagContainer {
 	display: flex;
@@ -78,6 +66,10 @@
 	padding: 2px 6px 3px;
 	background: #4d4d4d;
 	height: fit-content;
+}
+
+.favorite-tag {
+	background: #642a75 !important;
 }
 
 @media (max-width: 1580px) {

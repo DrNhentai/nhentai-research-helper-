@@ -112,7 +112,9 @@ function getNhentaiData(url, sendResponse) {
     });
     
   request.fail(function(data){
-    
+    sendResponse({
+      status: "failure"
+    });
   });
 	
 	request.done(function(data) {
@@ -136,6 +138,7 @@ function getNhentaiData(url, sendResponse) {
     });
 
     sendResponse({
+      status: "succes",
       title: comicTitle,
       coverUrl: coverUrl,
       tags: tags

@@ -1,6 +1,19 @@
 var linkedComics = new Map();
+var tagsReadable = [];
 
-findLinks();
+loadTags();
+
+function loadTags() {
+	chrome.storage.local.get('tags', function(data) {
+		if (typeof data.tags !== 'undefined') {
+			var arrayLength = data.tags.length;
+			for (var i = 0; i < arrayLength; i++) {
+				tagsReadable.push(data.tags[i]);
+			}
+		}
+		findLinks();
+	});
+}
 
 function findLinks() {
     allTextNodes = document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null,false);
@@ -19,12 +32,12 @@ function findLinks() {
             var newNodes = htmlParser.childNodes;
 
             while (newNodes.length) {
-                currentTextNode.parentNode.insertBefore(newNodes[0], currentTextNode);
                 if (typeof newNodes[0] !== "undefined") {
                     if (newNodes[0].nodeType == 1) {
                         linkedComics.set(newNodes[0], convertedUrl);
                     }
                 }
+                currentTextNode.parentNode.insertBefore(newNodes[0], currentTextNode);
             }
             currentTextNode.parentNode.removeChild(currentTextNode);
         } 
@@ -36,7 +49,10 @@ function addPopups() {
     linkedComics.forEach(function(value, key) {
         var addTooltipPopup = document.createElement('div');
         addTooltipPopup.classList.add('info-container');
-        
+        var text = document.createTextNode("Loading information");
+	    addTooltipPopup.appendChild(text);
+
+
         key.appendChild(addTooltipPopup);
         key.classList.add("info-hoverable");
 
@@ -44,39 +60,54 @@ function addPopups() {
             {
                 function: "externalPreview",
                 url: value
-        
+
             }, function(response) {
-                var imageDiv = document.createElement('div');
-                imageDiv.classList.add('imageDiv');
+                if (response.status == "succes") {
+                    addTooltipPopup.removeChild(text);
 
-                var tagDiv = document.createElement('div');
-                tagDiv.classList.add('tagDiv');
+                    var imageDiv = document.createElement('div');
+                    imageDiv.classList.add('imageDiv');
 
-                var imageTagContainer = document.createElement('div');
-                imageTagContainer.classList.add('imageTagContainer');
+                    var tagDiv = document.createElement('div');
+                    tagDiv.classList.add('tagDiv');
 
-                var titleDiv = document.createElement('h4');
-                var title = document.createTextNode(response.title);
-                titleDiv.appendChild(title);
+                    var imageTagContainer = document.createElement('div');
+                    imageTagContainer.classList.add('imageTagContainer');
 
-                imageTagContainer.appendChild(imageDiv);
-                imageTagContainer.appendChild(tagDiv);
+                    var titleDiv = document.createElement('h4');
+                    var title = document.createTextNode(response.title);
+                    titleDiv.appendChild(title);
 
-                addTooltipPopup.appendChild(titleDiv);
-                addTooltipPopup.appendChild(imageTagContainer);
-                
+                    imageTagContainer.appendChild(imageDiv);
+                    imageTagContainer.appendChild(tagDiv);
 
-                var image = document.createElement("IMG");
-                image.src = response.coverUrl;
-                image.classList.add('image');
-                imageDiv.appendChild(image);
+                    addTooltipPopup.appendChild(titleDiv);
+                    addTooltipPopup.appendChild(imageTagContainer);
+                    
 
-                response.tags.forEach(function(element, index) {
-                        var tag = document.createElement('div');
-                        tag.classList.add('tag');
-                        tag.innerHTML += element;
-                        tagDiv.appendChild(tag);
-                })
+                    var image = document.createElement("IMG");
+                    image.src = response.coverUrl;
+                    image.classList.add('image');
+                    imageDiv.appendChild(image);
+
+                    response.tags.forEach(function(element, index) {
+                            var tag = document.createElement('div');
+                            tag.classList.add('tag');
+                            tag.innerHTML += element;
+                            tagDiv.appendChild(tag);
+
+                            var arrayLength = tagsReadable.length;
+                            for (var j = 0; j < arrayLength; j++) {
+                                compareStringTag = element.replace(/\s/g, "");
+                                compareStringFavoriteTag = tagsReadable[j].replace(/\s/g, "");
+                                if (compareStringTag == compareStringFavoriteTag) {
+                                    tag.classList.add("favorite-tag");
+                                }
+                            }
+                    })
+                } else {
+                    text.nodeValue = "No comic found";
+                }
         });
     });
 }

@@ -210,9 +210,11 @@ function downloadComic() {
 }
 
 document.addEventListener('copy', function(e) {
-	var src = window.location.href;
-	var imgNumber = src.split("/");
+	if (e.srcElement.nodeName == "I") {
+		var src = window.location.href;
+		var imgNumber = src.split("/");
 
-	e.clipboardData.setData('text/plain', imgNumber[4]);
-	e.preventDefault();
-  });
+		e.clipboardData.setData('text/plain', imgNumber[4]);
+		e.preventDefault();
+	}
+});

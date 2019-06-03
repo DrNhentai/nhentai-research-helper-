@@ -66,7 +66,7 @@ chrome.runtime.onMessage.addListener(
     if (request.function == "externalPreview") {
       setTimeout(function(){
         getNhentaiData(request.url, sendResponse);
-      },200);
+      },1000);
       return true;
     }
   }
@@ -117,7 +117,7 @@ function getNhentaiData(url, sendResponse) {
     if (data.status == 503) {
       setTimeout(function(){
         getNhentaiData(url, sendResponse);
-      },1000);
+      },3000);
     } else {
       sendResponse({
         status: "failure"

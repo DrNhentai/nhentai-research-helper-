@@ -81,7 +81,7 @@ function updateDatabaseRequest(baseUrl, downloadUrl, tagDatabaseArray, lastPageU
     request.fail(function(data){
         setTimeout(function(){
             updateDatabaseRequest(baseUrl, downloadUrl, tagDatabaseArray, lastPageUrl, iterator, lastPage, databaseName);
-          },800);
+          },1000);
     });
 	
 	request.done(function(data) {
@@ -117,7 +117,7 @@ function updateDatabaseRequest(baseUrl, downloadUrl, tagDatabaseArray, lastPageU
 			updateDiv.innerHTML = "Updating tag database Page: " + iterator + "/" + lastPageNumber;
 			  setTimeout(function(){
 				updateDatabaseRequest(baseUrl, downloadUrl, tagDatabaseArray, lastPageUrl, iterator, lastPage, databaseName);
-			  },0);
+			  },500);
 		} else {
 			storeDatabase(tagDatabaseArray, databaseName);
 		}

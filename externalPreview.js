@@ -23,9 +23,14 @@ function findLinks() {
         foundMatches = currentTextNode.nodeValue.match(/[0-9]{5,6}/g);
         if (foundMatches != null) {
             allTextNodes.nextNode();
-            var convertedUrl = "https://nhentai.net/g/" + foundMatches[0];
             var v = currentTextNode.nodeValue;
-            v = v.replace(foundMatches[0], `<a href=${convertedUrl}>${foundMatches[0]}</a>`);
+            var convertedURLS = [];
+            var arrayLength = foundMatches.length;
+			for (var i = 0; i < arrayLength; i++) {
+				var convertedUrl = "https://nhentai.net/g/" + foundMatches[i];
+                v = v.replace(foundMatches[i], `<a href=${convertedUrl}>${foundMatches[i]}</a>`);
+                convertedURLS.push(convertedUrl);
+            }
 
             var htmlParser = document.createElement('div');
             htmlParser.innerHTML = v;
@@ -34,7 +39,7 @@ function findLinks() {
             while (newNodes.length) {
                 if (typeof newNodes[0] !== "undefined") {
                     if (newNodes[0].nodeType == 1) {
-                        linkedComics.set(newNodes[0], convertedUrl);
+                        linkedComics.set(newNodes[0], convertedURLS.shift());
                     }
                 }
                 currentTextNode.parentNode.insertBefore(newNodes[0], currentTextNode);

@@ -1,6 +1,6 @@
 {
   "name": "Nhentai research helper",
-  "version": "4.3",
+  "version": "4.4",
   "description": "An extention to help with your \"scientific\" research on nhentai.net",
   "permissions": ["https://nhentai.net/" ,"activeTab", "declarativeContent", "storage", "unlimitedStorage","downloads"],
   "background": {

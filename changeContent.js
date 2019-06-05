@@ -130,7 +130,7 @@ function applyScore() {
 	var arrayLength1 = galarieElements.length;
 	for (var i = 0; i < arrayLength1; i++) {
 		var dataTags = galarieElements[i].getAttribute("data-tags");
-		var dataTagList = dataTags.split(" ")
+		var dataTagList = dataTags.split(" ");
 		var score = 0;
 		var includedTags = [];
 		var includedArtists = [];
@@ -280,7 +280,7 @@ function createUpdateDiv() {
 		
 		
 				pleaseUpdateDiv.classList.add('please-update-container');
-				pleaseUpdateDiv.innerHTML = "Your tag-database is empty. Do you want to update it now (this may take a short while)?"
+				pleaseUpdateDiv.innerHTML = "Your tag-database is empty. Do you want to update it now (this may take a short while)?";
 		
 				pleaseUpdateDiv.appendChild(updateButton);
 				pleaseUpdateDiv.appendChild(disableUpdateButton);

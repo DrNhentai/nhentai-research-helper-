@@ -132,35 +132,35 @@ function storeDatabase(tagDatabaseArray, databaseName) {
 			chrome.storage.local.set({tagDatabaseArray: tagDatabaseArray}, function() {
 				alert( "Update finished");
 				updateInProgress = false;
-			})
+			});
             break;
 		case "artistDatabase":
 			chrome.storage.local.set({artistDatabase: true}, function() {});
 			chrome.storage.local.set({artistDatabaseArray: tagDatabaseArray}, function() {
 				alert( "Update finished");
 				updateInProgress = false;
-			})
+			});
             break;
 		case "characterDatabase":
 			chrome.storage.local.set({characterDatabase: true}, function() {});
 			chrome.storage.local.set({characterDatabaseArray: tagDatabaseArray}, function() {
 				alert( "Update finished");
 				updateInProgress = false;
-			})
+			});
             break;
 		case "parodyDatabase":
 			chrome.storage.local.set({parodyDatabase: true}, function() {});
 			chrome.storage.local.set({parodyDatabaseArray: tagDatabaseArray}, function() {
 				alert( "Update finished");
 				updateInProgress = false;
-			})
+			});
             break;
 		case "groupDatabase":
 			chrome.storage.local.set({groupDatabase: true}, function() {});
 			chrome.storage.local.set({groupDatabaseArray: tagDatabaseArray}, function() {
 				alert( "Update finished");
 				updateInProgress = false;
-			})
+			});
             break;
       }
 }

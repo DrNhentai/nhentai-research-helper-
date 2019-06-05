@@ -109,7 +109,7 @@ function addPopups() {
                                     tag.classList.add("favorite-tag");
                                 }
                             }
-                    })
+                    });
                 } else {
                     text.nodeValue = "No comic found";
                 }

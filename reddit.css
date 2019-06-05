@@ -33,6 +33,11 @@
   	margin-left: -80px;
 }
 
+#siteTable .info-container {
+	top: 100%;
+    bottom: unset !important;
+}
+
 .imageTagContainer {
 	display: flex;
 	margin-top: 10px !important;

@@ -6,9 +6,10 @@ var puffering = false;
 loadTags();
 
 chrome.runtime.onInstalled.addListener(function() {
-  chrome.storage.local.set({updateHint: true}, function() {
-  });
+  chrome.storage.local.set({updateHint: true}, function() {});
+  chrome.storage.local.set({indexFavoritesHint: true}, function() {});
 
+  chrome.storage.local.set({favoritesIndexed: false}, function() {});
   chrome.storage.local.set({tagDatabase: false}, function() {});
   chrome.storage.local.set({artistDatabase: false}, function() {});
   chrome.storage.local.set({characterDatabase: false}, function() {});

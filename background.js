@@ -2,6 +2,7 @@
 
 var tagsReadable = [];
 var tagsUpdated = false;
+var puffering = false;
 loadTags();
 
 chrome.runtime.onInstalled.addListener(function() {
@@ -64,9 +65,7 @@ chrome.runtime.onMessage.addListener(
     } 
 
     if (request.function == "externalPreview") {
-      setTimeout(function(){
-        getNhentaiData(request.url, sendResponse);
-      },1000);
+        nHentaiPuffer(request.url, sendResponse);
       return true;
     }
   }
@@ -105,7 +104,23 @@ function download(message) {
   }
 }
 
+function nHentaiPuffer(url,sendResponse) {
+  if (puffering) {
+    setTimeout(function(){
+      nHentaiPuffer(url,sendResponse);
+    },500);
+  } else {
+    puffering = true;
+    setTimeout(function(){
+      puffering = false;
+    },1000);
+    getNhentaiData(url, sendResponse);
+  }
+  
+}
+
 function getNhentaiData(url, sendResponse) {
+  console.log("Loading " + url);
 	var request = $.ajax({
         async: true,
         crossDomain : true,
@@ -115,7 +130,9 @@ function getNhentaiData(url, sendResponse) {
     
   request.fail(function(data){
     if (data.status == 503) {
+      console.log("FAILED: " + url);
       setTimeout(function(){
+        console.log("START AGAIN: " +url);
         getNhentaiData(url, sendResponse);
       },3000);
     } else {
@@ -126,6 +143,7 @@ function getNhentaiData(url, sendResponse) {
   });
 	
 	request.done(function(data) {
+    console.log("SUCCES: "+ url);
     var infoDiv = $(data).find("#info");
     var comicTitle = infoDiv.find("h1").text();
 
